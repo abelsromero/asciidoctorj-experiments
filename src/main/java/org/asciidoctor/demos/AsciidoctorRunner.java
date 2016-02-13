@@ -1,3 +1,5 @@
+package org.asciidoctor.demos;
+
 import org.asciidoctor.*;
 
 import java.io.File;
@@ -9,13 +11,18 @@ public class AsciidoctorRunner {
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
+        String backend = "pdf";
+
         AttributesBuilder attributes = AttributesBuilder.attributes();
         attributes.tableOfContents(true);
         attributes.tableOfContents(Placement.LEFT);
-        attributes.sourceHighlighter("highlightjs");
+        if (backend.equals("pdf")) {
+            attributes.sourceHighlighter("rouge");
+        } else
+            attributes.sourceHighlighter("highlightjs");
 
         OptionsBuilder options = OptionsBuilder.options();
-        options.backend("html5");
+        options.backend(backend);
         options.safe(SafeMode.UNSAFE);
         options.mkDirs(true);
 

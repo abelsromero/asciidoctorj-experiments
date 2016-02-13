@@ -18,7 +18,7 @@ We just haven't decided what that is yet.
 [source,java]
 .Java code from project
 ----
-include::{sourcedir}/AsciidoctorRunner.java[indent=0]
+include::{sourcedir}/org.asciidoctor.demos.AsciidoctorRunner.java[indent=0]
 ----
 
 
