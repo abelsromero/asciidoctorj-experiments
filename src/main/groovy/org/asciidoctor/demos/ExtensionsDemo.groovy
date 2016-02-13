@@ -18,5 +18,3 @@ println(Asciidoctor.Factory.create().render('''
 [BIG]
 Hello World
 ''', [:]))
-
-pri
