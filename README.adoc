@@ -1,0 +1,8 @@
+= AsciidoctorJ Simple example with Gradle
+
+This project contains a simple example of how to use AsciidoctorJ in a Gradle project.
+
+
+== The example
+
+The class `AscidoctorRunner` contains a simple code that shows how to instantiate an Asciidoctor renderer and how to set up some basic options.
