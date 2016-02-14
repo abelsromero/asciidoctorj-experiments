@@ -14,7 +14,7 @@ AsciidoctorExtensions.extensions {
     }
 }
 
-println(Asciidoctor.Factory.create().render('''
+println(Asciidoctor.Factory.create((String)null).render('''
 [BIG]
 Hello World
 ''', [:]))

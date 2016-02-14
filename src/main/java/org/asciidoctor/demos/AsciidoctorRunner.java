@@ -9,7 +9,8 @@ public class AsciidoctorRunner {
     public static final String SRC_PATH = "src/asciidoc/";
 
     public static void main(String[] args) {
-        Asciidoctor asciidoctor = Asciidoctor.Factory.create();
+        // null is required to create isolates Asciidoctor from the system gems (default planned for 1.6.0)
+        Asciidoctor asciidoctor = Asciidoctor.Factory.create((String)null);
 
         String backend = "pdf";
 
