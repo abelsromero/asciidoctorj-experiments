@@ -4,7 +4,7 @@ import org.asciidoctor.*;
 
 import java.io.File;
 
-public class AsciidoctorRunner {
+public class ManpageRenderer {
 
     public static final String SRC_PATH = "src/asciidoc/";
 
@@ -12,28 +12,23 @@ public class AsciidoctorRunner {
         // null is required to create isolates Asciidoctor from the system gems (default planned for 1.6.0)
         Asciidoctor asciidoctor = Asciidoctor.Factory.create((String) null);
 
-
         AttributesBuilder attributes = AttributesBuilder.attributes();
         attributes.tableOfContents(true);
         attributes.tableOfContents(Placement.LEFT);
-//        attributes.icons("font");
 
         OptionsBuilder options = OptionsBuilder.options();
+        options.backend("manpage");
+        options.docType("manpage");
         options.safe(SafeMode.UNSAFE);
         options.mkDirs(true);
         options.attributes(attributes);
+
+        // Output
         options.toDir(new File("build"));
 
-        asciidoctor.convertFile(file("sample.adoc"), options);
-
-        options.backend("pdf");
-        setSourceHighlighter("pdf", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
-
-        options.backend("html5");
-        setSourceHighlighter("html5", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
+        asciidoctor.convertFile(file("manpage.adoc"), options);
         // asciidoctor.convertFile(file("example-manual.adoc"), options);
+
     }
 
 
@@ -41,10 +36,4 @@ public class AsciidoctorRunner {
         return new File(SRC_PATH, filaname);
     }
 
-    public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {
-        if (backend.equals("pdf")) {
-            attributes.sourceHighlighter("rouge");
-        } else
-            attributes.sourceHighlighter("highlightjs");
-    }
 }

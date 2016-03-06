@@ -1,0 +1,14 @@
+= This is a title
+Author Name
+:images: pollas
+:icons: font
+
+This a preamble
+
+== This is a section
+
+These are some replacements {value}
+
+== Some admonitions
+
+NOTE: Asciidoctor supports font-based admonition icons, powered by Font Awesome!
