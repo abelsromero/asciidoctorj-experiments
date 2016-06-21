@@ -8,9 +8,11 @@ repositories {
 }
 
 dependencies {
-    compile 'org.asciidoctor:asciidoctorj:1.5.4'
+    compile 'org.asciidoctor:asciidoctorj:1.5.3.2'
     compile 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
     compile 'org.asciidoctor:asciidoctorj-groovy-dsl:1.0.0.preview2'
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
 
     compile 'org.codehaus.groovy:groovy-all:2.4.5'
 }
