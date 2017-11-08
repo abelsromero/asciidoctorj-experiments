@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
+
 apply plugin: 'groovy'
+apply plugin: 'org.asciidoctor.convert'
 
 sourceCompatibility = 1.7
 version = '1.0'
@@ -8,15 +20,35 @@ repositories {
 }
 
 dependencies {
-    compile 'org.asciidoctor:asciidoctorj:1.5.3.2'
-    compile 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+    compile 'org.asciidoctor:asciidoctorj:1.5.6'
+    compile 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
     compile 'org.asciidoctor:asciidoctorj-groovy-dsl:1.0.0.preview2'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
 
     compile 'org.codehaus.groovy:groovy-all:2.4.5'
+
+    asciidoctor group: 'org.asciidoctor', name: 'asciidoctorj-diagram', version: '1.5.4.1'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
+    gradleVersion = '2.12'
+}
+
+asciidoctorj {
+    version = '1.5.6'
+}
+
+asciidoctor {
+    requires = ['asciidoctor-diagram']
+    attributes \
+        'build-gradle': file('build.gradle'),
+            'source-highlighter' : 'coderay',
+            'imagesdir': 'images',
+            'toc': 'left',
+            'icons': 'font',
+            'setanchors': '',
+            'idprefix': '',
+            'idseparator': '-',
+            'docinfo1': ''
 }

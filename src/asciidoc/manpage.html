@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="author" content="Dan Allen, Sarah White, Ryan Waldron">
+<title>asciidoctor(1)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+</head>
+<body class="manpage">
+<div id="header">
+<h1>asciidoctor(1) Manual Page</h1>
+<h2>NAME</h2>
+<div class="sectionbody">
+<p>asciidoctor - converts AsciiDoc source files to HTML, DocBook and other formats</p>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_synopsis">SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>asciidoctor</strong> ['OPTION']&#8230;&#8203; 'FILE'&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The asciidoctor(1) command converts the AsciiDoc source file(s) 'FILE' to HTML5,
+DocBook 4.5, DocBook 5.0 and other custom output formats.</p>
+</div>
+<div class="paragraph">
+<p>If 'FILE' is '-' then the AsciiDoc source is read from standard input.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">OPTIONS</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_security_settings">Security Settings</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-B, --base-dir</strong>='DIR'</dt>
+<dd>
+<p>Base directory containing the document and resources. Defaults to the
+directory containing the source file, or the working directory if the
+source is read from a stream. Can be used as a way to chroot the execution
+of the program.</p>
+</dd>
+<dt class="hdlist1"><strong>-S, --safe-mode</strong>='SAFE_MODE'</dt>
+<dd>
+<p>Set safe mode level: 'unsafe', 'safe', 'server' or 'secure'. Disables
+potentially dangerous macros in source files, such as include::[]. If not
+set, the safe mode level defaults to 'unsafe' when Asciidoctor is invoked
+using this script.</p>
+</dd>
+<dt class="hdlist1"><strong>--safe</strong></dt>
+<dd>
+<p>Set safe mode level to 'safe'. Enables include macros, but restricts access
+to ancestor paths of source file. Provided for compatibility with the
+asciidoc command. If not set, the safe mode level defaults to 'unsafe' when
+Asciidoctor is invoked using this script.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_document_settings">Document Settings</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-a, --attribute</strong>='ATTRIBUTE'</dt>
+<dd>
+<p>Define, override or delete a document attribute. Command-line attributes
+take precedence over attributes defined in the source file.</p>
+<div class="paragraph">
+<p>'ATTRIBUTE' is normally formatted as a key-value pair, in the form 'NAME=VALUE'.
+Alternate acceptable forms are 'NAME' (where the 'VALUE' defaults to an empty
+string), 'NAME!' (unassigns the 'NAME' attribute) and 'NAME=VALUE@' (where
+'VALUE' does not override value of 'NAME' attribute if it&#8217;s already defined in
+the source document). Values containing spaces should be enclosed in quotes.</p>
+</div>
+<div class="paragraph">
+<p>This option may be specified more than once.</p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>-b, --backend</strong>='BACKEND'</dt>
+<dd>
+<p>Backend output file format: 'html5', 'docbook45' and 'docbook5' supported
+out of the box. You can also use the backend alias names 'html' (aliased to
+'html5') or 'docbook' (aliased to 'docbook5'). Defaults to 'html5'. Other
+options can be passed, but if Asciidoctor cannot find the backend, it will
+fail during rendering.</p>
+</dd>
+<dt class="hdlist1"><strong>-d, --doctype</strong>='DOCTYPE'</dt>
+<dd>
+<p>Document type: 'article', 'book', 'manpage' or 'inline'. Sets the root
+element when using the 'docbook' backend and the style class on the HTML
+body element when using the 'html' backend. The 'book' document type allows
+multiple level-0 section titles in a single document. The 'manpage' document
+type enables parsing of metadata necessary to produce a manpage. The
+'inline' document type allows the content of a single paragraph to be
+formatted and returned without wrapping it in a containing element. Defaults
+to 'article'.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rendering_control">Rendering Control</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-C, --compact</strong></dt>
+<dd>
+<p>Compact the output by removing blank lines. (No longer in use).</p>
+</dd>
+<dt class="hdlist1"><strong>-D, --destination-dir</strong>='DIR'</dt>
+<dd>
+<p>Destination output directory. Defaults to the directory containing the
+source file, or the working directory if the source is read from a stream.
+If specified, the directory is resolved relative to the working directory.</p>
+</dd>
+<dt class="hdlist1"><strong>-E, --template-engine</strong>='NAME'</dt>
+<dd>
+<p>Template engine to use for the custom render templates. The gem with the
+same name as the engine will be loaded automatically. This name is also
+used to build the full path to the custom templates. If a template engine
+is not specified, it will be auto-detected based on the file extension
+of the custom templates found.</p>
+</dd>
+<dt class="hdlist1"><strong>-e, --eruby</strong></dt>
+<dd>
+<p>Specifies the eRuby implementation to use for rendering the custom ERB
+templates. Supported values are 'erb' and 'erubis'. Defaults to 'erb'.</p>
+</dd>
+<dt class="hdlist1"><strong>-n, --section-numbers</strong></dt>
+<dd>
+<p>Auto-number section titles. Synonym for <strong>--attribute numbered</strong>.</p>
+</dd>
+<dt class="hdlist1"><strong>-o, --out-file</strong>='OUT_FILE'</dt>
+<dd>
+<p>Write output to file 'OUT_FILE'. Defaults to the base name of the input
+file suffixed with 'backend' extension. If the input is read from standard
+input, then the output file defaults to stdout. If 'OUT_FILE' is '-' then
+the standard output is also used. If specified, the file is resolved
+relative to the working directory.</p>
+</dd>
+<dt class="hdlist1"><strong>-s, --no-header-footer</strong></dt>
+<dd>
+<p>Suppress the document header and footer in the output.</p>
+</dd>
+<dt class="hdlist1"><strong>-T, --template-dir</strong>='DIR'</dt>
+<dd>
+<p>A directory containing custom render templates that override one or more
+templates from the built-in set. (requires 'tilt' gem)</p>
+<div class="paragraph">
+<p>If there is a subfolder that matches the engine name (if specified), that folder
+is appended to the template directory path. Similarly, if there is a subfolder
+in the resulting template directory that matches the name of the backend, that
+folder is appended to the template directory path.</p>
+</div>
+<div class="paragraph">
+<p>This option may be specified more than once. Matching templates found in
+subsequent directories override ones previously discovered.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_processing_information">Processing Information</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-q, --quiet</strong></dt>
+<dd>
+<p>Silence warnings.</p>
+</dd>
+<dt class="hdlist1"><strong>--trace</strong></dt>
+<dd>
+<p>Include backtrace information on errors. Not enabled by default.</p>
+</dd>
+<dt class="hdlist1"><strong>-v, --verbose</strong></dt>
+<dd>
+<p>Verbosely print processing information and configuration file checks to
+stderr.</p>
+</dd>
+<dt class="hdlist1"><strong>-t, --timings</strong></dt>
+<dd>
+<p>Display timings information (time to read, parse and convert)</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_program_information">Program Information</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-h, --help</strong></dt>
+<dd>
+<p>Show the help message.</p>
+</dd>
+<dt class="hdlist1"><strong>-V, --version</strong></dt>
+<dd>
+<p>Print program version number.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exit_status">EXIT STATUS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>0</strong></dt>
+<dd>
+<p>Success</p>
+</dd>
+<dt class="hdlist1"><strong>1</strong></dt>
+<dd>
+<p>Failure (syntax or usage error; configuration error; document processing
+failure; unexpected error).</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugs">BUGS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>See the <strong>Asciidoctor</strong> issue tracker: &lt;<strong><a href="https://github.com/asciidoctor/asciidoctor/issues?state=open" class="bare">https://github.com/asciidoctor/asciidoctor/issues?state=open</a></strong>&gt;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_authors">AUTHORS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Asciidoctor</strong> was written by Dan Allen, Ryan Waldron, Jason Porter, Nick
+Hengeveld and other contributors.</p>
+</div>
+<div class="paragraph">
+<p><strong>AsciiDoc</strong> was written by Stuart Rackham and has received contributions from
+many other individuals.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resources">RESOURCES</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Git source repository on GitHub: &lt;<strong><a href="https://github.com/asciidoctor/asciidoctor" class="bare">https://github.com/asciidoctor/asciidoctor</a></strong>&gt;</p>
+</div>
+<div class="paragraph">
+<p>Project web site: &lt;<strong><a href="http://asciidoctor.org" class="bare">http://asciidoctor.org</a></strong>&gt;</p>
+</div>
+<div class="paragraph">
+<p>GitHub organization: &lt;<strong><a href="https://github.com/asciidoctor" class="bare">https://github.com/asciidoctor</a></strong>&gt;</p>
+</div>
+<div class="paragraph">
+<p>Discussion list: &lt;<strong><a href="http://discuss.asciidoctor.org" class="bare">http://discuss.asciidoctor.org</a></strong>&gt;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_copying">COPYING</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright (C) 2012-2014 Dan Allen, Ryan Waldron and the Asciidoctor Project. Free use of this
+software is granted under the terms of the MIT License.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2016-12-21 09:58:13 CET
+</div>
+</div>
+</body>
+</html>

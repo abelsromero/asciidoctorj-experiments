@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="author" content="Doc Writer">
+<title>Example Manual</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Example Manual</h1>
+<div class="details">
+<span id="author" class="author">Doc Writer</span><br>
+<span id="email" class="email"><a href="mailto:doc.writer@example.org">doc.writer@example.org</a></span><br>
+<span id="revnumber">version {project-version},</span>
+<span id="revdate">2014-09-09</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a user manual for an example project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This project does something.
+We just haven&#8217;t decided what that is yet.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_source_code">Source Code</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Java code from project</div>
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">link:../../src/main/java/org.asciidoctor.demos.AsciidoctorRunner.java[]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_images">Images</h2>
+<div class="sectionbody">
+<div class="imageblock thumb">
+<div class="content">
+<img src="images/sunset.jpg" alt="sunset">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_attributes">Attributes</h2>
+<div class="sectionbody">
+<div class="dlist">
+<div class="title">Built-in</div>
+<dl>
+<dt class="hdlist1">asciidoctor-version</dt>
+<dd>
+<p>1.5.5</p>
+</dd>
+<dt class="hdlist1">safe-mode-name</dt>
+<dd>
+<p>secure</p>
+</dd>
+<dt class="hdlist1">docdir</dt>
+<dd>
+<p></p>
+</dd>
+<dt class="hdlist1">docfile</dt>
+<dd>
+<p>example-manual.adoc</p>
+</dd>
+<dt class="hdlist1">imagesdir</dt>
+<dd>
+<p>images</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Custom</div>
+<dl>
+<dt class="hdlist1">project-version</dt>
+<dd>
+<p>{project-version}</p>
+</dd>
+<dt class="hdlist1">sourcedir</dt>
+<dd>
+<p>../../src/main/java</p>
+</dd>
+<dt class="hdlist1">endpoint-url</dt>
+<dd>
+<p>{endpoint-url}</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_includes">Includes</h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="title">include::subdir/_b.adoc[]</div>
+<div class="content">
+<div class="paragraph">
+<p><a href="subdir/_b.adoc" class="bare">subdir/_b.adoc</a></p>
+</div>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Includes can be tricky!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version {project-version}<br>
+Last updated 2016-12-21 09:58:13 CET
+</div>
+</div>
+</body>
+</html>
