@@ -1,0 +1,300 @@
+= Git methodology
+Abel Salgado Romero <abelsr@corporate.mail>
+:icons: font
+:toc:
+:domain: internal.url
+ifndef::env-idea[:icons: font]
+
+// TODO change style to 'we'
+
+This documents *SUMMARIZES* the methodology for Git usage in the BigContent project. +
+See SP site for more information: https://{domain}/confluence/pages/viewpage.action?pageId=1020133415.
+
+[NOTE]
+====
+For simplicity sake throughout the document, git commands are used to display Git actions.
+This does not mean that users should use them exclusevily or avoid GUI interfaces, feel free to experiment.
+====
+
+== VERY IMPORTANT things to consider
+
+These are our version of the recommendations found in ref: https://{domain}/confluence/display/SP/Best+practices+in+GIT[SP - Best practices in GIT]:
+
+* Always performing the necessary commits in between different upgrades (aka. commit often).
+* Properly *commenting* on the different *commits*, offering a brief explanation of the changes performed.
+* *Never work on the master branch*, use branches for different developments.
+* *Using a work flow* (such as gitflow).
+* [line-through]#Storing only the code and not any other type of documents or deliverables.# -> Do precisely the opposite! But use plain text formats.
+* *Executing units tests* before performing the commits.
+
+Also:
+
+* *Checkout master branch regularly.*
+
+[[naming]]
+== Branch naming conventions
+
+The following naming conventions are *highly encouraged* to ease the management of branches.
+These allow to sort the open branches in both local and GitLab envitonments.
+
+Note that adding the JIRA issue code to the branch name is optional.
+
+bug fixes::
+fix/__
++
+eg. _"fix/nullpointer_when_description_is_empty"_
+
+improvements: changes related small improvements, refactors, etc.::
+imp/__
++
+eg. _"imp/added_log_trails_during_creation"_
+
+features: new features::
+feat/__
++
+eg. _"feat/new_mongodb_connector"_
+
+documentation: overall documentation changes (new docs, reviews and updates)::
+docs/__
++
+eg. _"docs/added_amazing_git_manual"_
++
+Regarding documentation, include the documentation updates in the appropriate `fix/`, `imp/`, `feat/` branch(es).
+`docs/` branches are for changes that *only* affect documentation.
+
+Proof of concept: experiments not meant to be merged into master::
+poc/__
++
+eg. _"docs/added_amazing_git_manual"_
++
+If a `poc/` is to be merged, rename the branch (<<branch-rename>>).
+
+== Workflow
+
+The workflow adopted is a simplified version of link:https://{url}/confluence/display/SP/Gitflow[Gitflow].
+
+The methodology is based on the following principles:
+
+* *1 Git repo* for each project
+* `master` branch holds the stable version
+* *All* changes are done in separated branches
+
+This means, that for every change the following *sp must be followed in this order*:
+
+. Make sure that local master is up-to-date.
+
+ $ git checkout master
+ $ git pull
+
+. Create a local branch where changes will be commited.
++
+IMPORTANT: Follow conventions described in <<naming>>.
+
+. Commit (if possible) on small milestones (e.g. when part of the fix or feature has been tested).
++
+Remember adding meaningful descriptions always, and the JIRA issue code if you can (only the code, see link:https://{domain}/confluence/display/SP/Git+-+Jira+Integration[SP Jira Integration]).
+
+. Make sure all test pass in the shell.
+Also, check if some documentations need to be updated.
+
+. (OPTIONAL) Push to the GitLab repo (aka. `origin`) if the development is long.
+Just as a backup, remember later one we can modify the git history with squashs.
+
+ $ git push
++
+[NOTE]
+====
+Add `-u origin <branch_name>` the first timeto create the branch in origin.
+IntelliJ will take care of creating the branch automatically if it does not exist on `origin`.
+====
+
+. (OPTIONAL) It is highly recommended to merge all commits in fewer commits to make change review and change tracking easier.
+This is called `squashing`.
++
+The exact number of commits depends on the change, as a rule, each commit should hold a self-contained feature. +
+For example, if we are adding a new REST service with two methods, do either 1 commit with all or 2 commits, one for each method (with respective tests).
++
+For that, you can use Eclipse's UI `squash` feature (easy way) or use shell commands here link:https://www.devroom.io/2011/07/05/git-squash-your-latests-commits-into-one/[Squash your latests commits into one].
+
+. Once you consider everything is done, push the final branch to the repository.
+If the history was modified and part of the code has already been pushed, we'll need to use the `force` option.
+
+. (OPTIONAL, but HIGHLY advised) Rebase master into the branch and test again.
+However highly improvable, this will tell if we accidental broke something in master for sure.
+See instructions <<master-rebase, below>>.
+
+. Create Merge request, just use the GitLab UI...and hope for the best :D
+
+. [[master-rebase]] If there are conflicts and the merge is not possible, rebase/merge the changes from `master` into the working branch.
+
+ $ git checkout master
+ $ git pull
+ $ git checkout <branch>
+ $ git rebase master
++
+When conflicts appear, resolve and *FOLLOW CAREFULLY Git instructions shown in the console*.
+Finally, commit the final version.
++
+ $ git commit -m "Rebase of master into <branch>"
+
+[WARNING]
+====
+A rebase branch will create a reference to `master`.
+That means that doing `git push` will also to push `master -> orign/master`.
+To avoid that, either do `git push origin <branch>` or rebase jus when your are going to crear a PR/MR.
+====
+
+== Releases
+
+* Versions will be managed with standard Git tags.
+
+== Troubleshooting
+
+This section contains guides to handle common problems using Git.
+
+=== Restoring code to a previous version (`reset`)
+
+_Brief introduction..._
+
+Sometimes we need to restore the code to a previous state.
+For example:
+
+* Because we just want to delete local changes and go back to a previous version.
+* Because a merge introduced issues and we are not sure what went wrong.
+* Because we are in panic and want to go back to a safe point.
+* Because we 'squashed' some changes locally and we want to restore the history.
+
+NOTE: By local we mean changes in OUR machine, no matter if they are committed or not.
+
+When restoring to a previous version we need to answer these questions first:
+
+Do I need to keep local changes?::
+If yes, we should do a `mixed` reset, if not we'll be doing a `hard` one.
+See below for full details.
+
+Where is the "Good code" localed?::
+If it is found in our local machine we will reset to a local branch.
+If we already committed some changes we don't want to keep, we'll need to rest to the remote repository.
+
+_Now..._
+
+What the `reset` command exactly does is restoring a branch to a state from another branch.
+That is, it completely overwrites the CODE and HISTORY of the current branch another with those of another. +
+No matter the source or target branches, if we want to reset a working branch to the master in `origin`, we can do it.
+
+_TL;DR: `reset` is a magical time-and-space machine._
+
+[IMPORTANT]
+====
+Remote means any remote replica.
+In corp GitLab, this alwasy means `origin`.
+In other environment like GitHub, we have 2 remotes:
+
+* `origin`: pointing to our fork from which we cloned.
+* `upstream`: pointing to the original repo from which we forked.
+
+To se the list of remotes run `git remote show`. To see the details on one remote run `git remote show {name}`.
+====
+
+NOTE: Unmanaged files are those that have not been added to versioning using the `add` command.
+
+.git reset cheatsheet
+|===
+|Keep local? |Good code location | Command | Explanation
+
+|No
+|Local
+|git reset --hard {branch_name}
+|Will restore the code to the last local commit in current branch:
+
+Modified files -> restored +
+Created files -> deleted +
+Unmanaged files -> ignored
+
+|No
+|Remote
+|git reset --hard origin/{branch_name}
+|Will restore the code to the last commit from remote branch:
+
+Modified files -> restored +
+Created files -> deleted +
+Unmanaged files -> ignored
+
+|Yes
+|Local
+|git reset --mixed {branch_name}
+|Will restore the code to the last local commit un current branch and keep local changes:
+
+Modified files -> untouched and umanaged +
+Created files -> kept and unmanaged +
+Unmanaged files -> kept and unmanaged
+
+|Yes
+|Remote
+|git reset --mixed origin/{branch_name}
+|Will restore the code to the last commit from remote branch and keep local changes:
+
+Modified files -> untouched and umanaged +
+Created files -> kept and unmanaged +
+Unmanaged files -> kept and unmanaged
+|===
+
+Official reference: https://git-scm.com/docs/git-reset
+
+=== Removing a file from stage (aka. unstaging)
+
+Sometimes we have already added a file to be committed, but then we realize we don't want to add it yet.
+For those cases, just run:
+
+ git reset HEAD <file>
+
+[NOTE]
+====
+`<file>` is an expresion that accepts wilcards.
+For example, pass:[*.adoc, *Resources.*, etc.]
+====
+
+=== Changing a commit message
+
+If we need to change the comment of the last commit, just use:
+
+ git commit --amend -m "Your new commit message"
+
+=== Add a file to the HEAD (aka. last commit)
+
+In case we need to add one or more files to the last commit without changing anything else, just:
+
+. Stage the document(s) with `git add <files_pattern>`
+. Fix the commit with `git commit --amend --no-edit`
+
+Note that if the change was already pushed, we'll need to use the `force` option.
+
+[[branch-rename]]
+=== Renaming a branch
+// TODO need to test this
+If we need to change the name of a branch, just this from the working branch:
+
+ git branch -m <new_name>
+
+Note however, if the branch was already in origin you'll need to delete the remote branch and update the locale reference.
+
+ git push origin :<old_name>
+ git push origin --set-upstream <new_name>
+
+=== Resetting credentials
+
+NOTE: Tested in Windows 10
+
+When the password of you user changes you may find Git does not offer the option to update it.
+If that happens, it means credentials are managed by the OS.
+
+To reset the credentials:
+
+. Go into `Credential Manager` (`Administrador de credenciales`)
+. Scroll down until you find the credentials you want to reset.
+For instance, `git:https://{domain}`.
+. Click on it to open the options and select `Edit` (`Editar`).
+And update your password.
+
+If it does not work, make sure you updated the correct password.
+If still having issues, remove the credentials and let Git ask for them again.

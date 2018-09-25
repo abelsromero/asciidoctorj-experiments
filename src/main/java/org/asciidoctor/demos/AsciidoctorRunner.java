@@ -12,11 +12,9 @@ public class AsciidoctorRunner {
         // null is required to create isolates Asciidoctor from the system gems (default planned for 1.6.0)
         Asciidoctor asciidoctor = Asciidoctor.Factory.create((String) null);
 
-
         AttributesBuilder attributes = AttributesBuilder.attributes();
         attributes.tableOfContents(true);
         attributes.tableOfContents(Placement.LEFT);
-//        attributes.icons("font");
 
         OptionsBuilder options = OptionsBuilder.options();
         options.safe(SafeMode.UNSAFE);
@@ -24,16 +22,14 @@ public class AsciidoctorRunner {
         options.attributes(attributes);
         options.toDir(new File("build"));
 
-        asciidoctor.convertFile(file("sample.adoc"), options);
-
-        options.backend("pdf");
-        setSourceHighlighter("pdf", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
-
-        options.backend("html5");
-        setSourceHighlighter("html5", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
-        // asciidoctor.convertFile(file("example-manual.adoc"), options);
+        for (int i = 0; i < 500; i++) {
+            System.out.println("Converting: " + i);
+            options.toFile(new File("target/" + i + ".html"));
+//            Asciidoctor.Factory.create((String) null)
+            asciidoctor
+//                    .convertFile(file("user-password-expiration.adoc"), options);
+                    .convertFile(file("git-usage.adoc"), options);
+        }
     }
 
 
