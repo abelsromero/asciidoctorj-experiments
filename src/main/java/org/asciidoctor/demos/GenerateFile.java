@@ -40,8 +40,7 @@ public class GenerateFile {
         bw.close();
         */
 
-        // null is required to create isolates Asciidoctor from the system gems (default planned for 1.6.0)
-        Asciidoctor asciidoctor = Asciidoctor.Factory.create((String)null);
+        Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
         Map<String, Object> options = new HashMap<String, Object>();
         options.put("backend", "pdf");
@@ -52,7 +51,7 @@ public class GenerateFile {
         options.safe(SafeMode.UNSAFE);
         options.backend("pdf");//.inPlace(true);
 */
-        asciidoctor.convertFile(new File(basepath,fileName+".adoc"), options);
+        asciidoctor.convertFile(new File(basepath, fileName + ".adoc"), options);
 
         /*
         try {

@@ -1,7 +1,7 @@
 package org.asciidoctor.demos;
 
 import org.asciidoctor.*;
-import org.asciidoctor.internal.JRubyRuntimeContext;
+import org.asciidoctor.jruby.internal.JRubyRuntimeContext;
 import org.asciidoctor.log.LogHandler;
 import org.asciidoctor.log.LogRecord;
 import org.jruby.internal.runtime.GlobalVariables;
@@ -13,12 +13,11 @@ public class AsciidoctorLogHandlerRunner {
     public static final String SRC_PATH = "src/asciidoc/";
 
     public static void main(String[] args) {
-        // null is required to create isolates Asciidoctor from the system gems (default planned for 1.6.0)
-        final Asciidoctor asciidoctor = Asciidoctor.Factory.create((String) null);
+        final Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        GlobalVariables globalVariables = JRubyRuntimeContext.get().getGlobalVariables();
+        GlobalVariables globalVariables = JRubyRuntimeContext.get(asciidoctor).getGlobalVariables();
         printVerbose(globalVariables);
-        globalVariables.set("$VERBOSE", JRubyRuntimeContext.get().getFalse());
+        globalVariables.set("$VERBOSE", JRubyRuntimeContext.get(asciidoctor).getFalse());
         printVerbose(globalVariables);
 
         asciidoctor.registerLogHandler(new LogHandler() {
