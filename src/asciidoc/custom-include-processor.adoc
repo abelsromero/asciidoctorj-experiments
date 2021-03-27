@@ -1,0 +1,13 @@
+= Custom include processor example
+
+== Content
+
+[java]
+----
+include::text[source=java]
+----
+
+[xml]
+----
+include::text[source=xml]
+----
