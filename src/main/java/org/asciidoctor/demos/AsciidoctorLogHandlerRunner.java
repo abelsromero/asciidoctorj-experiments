@@ -8,9 +8,9 @@ import org.jruby.internal.runtime.GlobalVariables;
 
 import java.io.File;
 
-public class AsciidoctorLogHandlerRunner {
+import static org.asciidoctor.demos.utils.FileUtils.file;
 
-    public static final String SRC_PATH = "src/asciidoc/";
+public class AsciidoctorLogHandlerRunner {
 
     public static void main(String[] args) {
         final Asciidoctor asciidoctor = Asciidoctor.Factory.create();
@@ -45,9 +45,4 @@ public class AsciidoctorLogHandlerRunner {
     private static void printVerbose(GlobalVariables globalVariables) {
         System.out.println("$VERBOSE: " + globalVariables.get("$VERBOSE"));
     }
-
-    public static File file(String filaname) {
-        return new File(SRC_PATH, filaname);
-    }
-
 }

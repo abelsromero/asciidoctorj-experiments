@@ -1,60 +1,86 @@
 package org.asciidoctor.demos;
 
-import org.asciidoctor.*;
-import org.asciidoctor.demos.extensions.ByePostprocessor;
-import org.asciidoctor.demos.extensions.HelloPreprocessor;
-import org.asciidoctor.extension.ExtensionGroup;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.AttributesBuilder;
+import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.ast.ContentNode;
+import org.asciidoctor.ast.Document;
+import org.asciidoctor.ast.StructuralNode;
+import org.asciidoctor.extension.Treeprocessor;
 
 import java.io.File;
-import java.util.Map;
+import java.util.function.Function;
 
-public class AsciidoctorExtensionGroup {
+import static org.asciidoctor.demos.utils.FileUtils.file;
 
-    public static final String SRC_PATH = "src/asciidoc/";
-    public static final String EXTENSION_GROUP_NAME = "my-extensions";
+public class AstTraverser {
 
-    public static void main(String[] args) {
-        Asciidoctor asciidoctor = Asciidoctor.Factory.create();
+    public static class Tre extends Treeprocessor {
 
-        asciidoctor.javaExtensionRegistry().
+        @Override
+        public Document process(Document document) {
+            System.out.println("go!");
+            processNode(document, 0);
+            return document;
+        }
 
-        final String groupName = "parapa";
-        // crates a group with random name, invoking again creates a new group
-        ExtensionGroup extensionGroup2 = asciidoctor.createGroup(groupName)
-                .postprocessor(ByePostprocessor.class);
-        extensionGroup2
-                .register();
+        public void processNode(StructuralNode node, int depth) {
+//            if (node instanceof Table) {
+//                System.out.println("");
+//            }
+            String message = protectedApply(node, ContentNode::getNodeName) + " (" + node.getClass().getSimpleName() + ")";
+            message += "\t\t\t\t context: " + protectedApply(node, ContentNode::getContext);
+            message += "\t\t\t\t style: " + protectedApply(node, StructuralNode::getStyle);
+            message += "\t\t\t\t level: " + protectedApply(node, n -> String.valueOf(n.getLevel()));
+
+            println(message, depth);
+            try {
+                node.getBlocks()
+                    .forEach(b -> processNode(b, depth + 1));
+            } catch (Exception e) {
+                System.out.println("");
+            }
+        }
+
+        private String getContext(StructuralNode node) {
+            return node.getContext();
+        }
+
+        private String protectedApply(StructuralNode node, Function<StructuralNode, String> function) {
+            try {
+                return function.apply(node);
+            } catch (Exception e) {
+                return "ERROR";
+            }
+        }
 
 
+        public void println(String message, int depth) {
+            final String prefix = prefix(depth);
+            System.out.println("[info] " + prefix + message);
+        }
 
-        ExtensionGroup extensionGroup1 = asciidoctor.createGroup(groupName)
-                .preprocessor(new HelloPreprocessor(Map.of(), "1"));
-        extensionGroup1
-                .register();
-
-
-        ExtensionGroup random2 = asciidoctor.createGroup();
-        asciidoctor.createGroup(EXTENSION_GROUP_NAME);
-
-        AttributesBuilder attributes = AttributesBuilder.attributes();
-        attributes.tableOfContents(true);
-        attributes.tableOfContents(Placement.LEFT);
-//        attributes.icons("font");
-
-        OptionsBuilder options = OptionsBuilder.options();
-        options.backend("html5");
-        options.safe(SafeMode.UNSAFE);
-        options.mkDirs(true);
-        options.toDir(new File("build"));
-        options.attributes(attributes);
-
-        asciidoctor.convertFile(file("sample.adoc"), options);
-
+        private String prefix(int length) {
+            return length <= 0 ? "" : "  ".repeat(length + 1);
+        }
     }
 
+    public static void main(String[] args) {
+        final Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-    public static File file(String filaname) {
-        return new File(SRC_PATH, filaname);
+        final File file = file("ast.adoc");
+        final OptionsBuilder options = OptionsBuilder.options()
+            .backend("html");
+
+        asciidoctor.javaExtensionRegistry()
+            .treeprocessor(Tre.class);
+
+        Document document = asciidoctor.loadFile(file, options.asMap());
+        String author = (String) document.getAttribute("author");
+
+//        asciidoctor.unregisterAllExtensions();
+
+//        asciidoctor.convertFile(file, options);
     }
 
     public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {

@@ -4,9 +4,9 @@ import org.asciidoctor.*;
 
 import java.io.File;
 
-public class ManpageRenderer {
+import static org.asciidoctor.demos.utils.FileUtils.file;
 
-    public static final String SRC_PATH = "src/asciidoc/";
+public class ManpageRenderer {
 
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
@@ -27,12 +27,5 @@ public class ManpageRenderer {
 
         asciidoctor.convertFile(file("manpage.adoc"), options);
         // asciidoctor.convertFile(file("example-manual.adoc"), options);
-
     }
-
-
-    public static File file(String filaname) {
-        return new File(SRC_PATH, filaname);
-    }
-
 }

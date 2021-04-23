@@ -9,9 +9,10 @@ import org.asciidoctor.extension.JavaExtensionRegistry;
 import java.io.File;
 import java.util.Map;
 
+import static org.asciidoctor.demos.utils.FileUtils.file;
+
 public class AsciidoctorExtensionGroup {
 
-    public static final String SRC_PATH = "src/asciidoc/";
     public static final String EXTENSION_GROUP_NAME = "my-extensions";
 
     public static void main(String[] args) {
@@ -57,11 +58,5 @@ public class AsciidoctorExtensionGroup {
 
         asciidoctor.convertFile(file("sample.adoc"), options);
     }
-
-
-    public static File file(String filename) {
-        return new File(SRC_PATH, filename);
-    }
-
 
 }

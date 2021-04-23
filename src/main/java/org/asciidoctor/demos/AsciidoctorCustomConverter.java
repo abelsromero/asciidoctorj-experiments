@@ -3,11 +3,9 @@ package org.asciidoctor.demos;
 import org.asciidoctor.*;
 import org.asciidoctor.demos.converters.TextConverter;
 
-import java.io.File;
+import static org.asciidoctor.demos.utils.FileUtils.file;
 
 public class AsciidoctorCustomConverter {
-
-    public static final String SRC_PATH = "src/asciidoc/";
 
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
@@ -32,12 +30,7 @@ public class AsciidoctorCustomConverter {
         String convertedContent = asciidoctor.convertFile(file("sample.adoc"), options);
         System.out.println("Result:\n" + convertedContent);
     }
-
-
-    public static File file(String filaname) {
-        return new File(SRC_PATH, filaname);
-    }
-
+    
     public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {
         if (backend.equals("pdf")) {
             attributes.sourceHighlighter("rouge");

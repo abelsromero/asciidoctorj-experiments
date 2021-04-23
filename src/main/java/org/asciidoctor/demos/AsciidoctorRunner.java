@@ -4,9 +4,9 @@ import org.asciidoctor.*;
 
 import java.io.File;
 
-public class AsciidoctorRunner {
+import static org.asciidoctor.demos.utils.FileUtils.file;
 
-    public static final String SRC_PATH = "src/asciidoc/";
+public class AsciidoctorRunner {
 
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
@@ -32,11 +32,6 @@ public class AsciidoctorRunner {
         setSourceHighlighter("html5", attributes);
         asciidoctor.convertFile(file("sample.adoc"), options);
         // asciidoctor.convertFile(file("example-manual.adoc"), options);
-    }
-
-
-    public static File file(String filaname) {
-        return new File(SRC_PATH, filaname);
     }
 
     public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {
