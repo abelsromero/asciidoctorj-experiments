@@ -5,19 +5,20 @@ import org.asciidoctor.extension.Postprocessor;
 
 import java.util.Map;
 
-public class DummyPostprocessor extends Postprocessor {
+import static org.asciidoctor.demos.converters.TextConverter.checkFootnotes;
 
-    public DummyPostprocessor(Map<String, Object> config) {
+public class ByePostprocessor extends Postprocessor {
+
+    public ByePostprocessor(Map<String, Object> config) {
         super(config);
-        System.out.println(this.getClass().getSimpleName() + "(" 
-                + this.getClass().getSuperclass().getSimpleName() + ") initialized");
+        System.out.println(this.getClass().getSimpleName() + "("
+            + this.getClass().getSuperclass().getSimpleName() + ") initialized");
     }
 
     @Override
     public String process(Document document, String output) {
-        System.out.println("Processing "+ this.getClass().getSimpleName());
-        System.out.println("Processing: blocks found: " + document.getBlocks().size());
-        System.out.println("Processing: output size: " + output.length());
+        checkFootnotes(document);
+        System.out.println("Bye!!");
         return output;
     }
 
