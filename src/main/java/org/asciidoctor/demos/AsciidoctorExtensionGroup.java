@@ -1,48 +1,67 @@
 package org.asciidoctor.demos;
 
 import org.asciidoctor.*;
+import org.asciidoctor.demos.extensions.ByePostprocessor;
+import org.asciidoctor.demos.extensions.HelloPreprocessor;
+import org.asciidoctor.extension.ExtensionGroup;
+import org.asciidoctor.extension.JavaExtensionRegistry;
 
 import java.io.File;
+import java.util.Map;
 
-public class AsciidoctorRunner {
+public class AsciidoctorExtensionGroup {
 
     public static final String SRC_PATH = "src/asciidoc/";
+    public static final String EXTENSION_GROUP_NAME = "my-extensions";
 
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        AttributesBuilder attributes = AttributesBuilder.attributes();
-        attributes.tableOfContents(true);
-        attributes.tableOfContents(Placement.LEFT);
-//        attributes.icons("font");
+        asciidoctor.createGroup()
+            .preprocessor(new HelloPreprocessor(Map.of(), "group 1"))
+            .register();
 
-        OptionsBuilder options = OptionsBuilder.options();
-        options.safe(SafeMode.UNSAFE);
-        options.mkDirs(true);
-        options.attributes(attributes);
-        options.toDir(new File("build"));
+        final String groupName = "my-group";
+        ExtensionGroup group = asciidoctor.createGroup(groupName);
+        group
+            .postprocessor(ByePostprocessor.class)
+            .register();
+
+        // group.unregister();
+
+        JavaExtensionRegistry javaExtensionRegistry = asciidoctor.javaExtensionRegistry();
+        javaExtensionRegistry.preprocessor(new HelloPreprocessor(Map.of(), "registry "));
+
+        // Will register all extension: from registry, groups & SPI
+        // asciidoctor.unregisterAllExtensions();
+
+        ExtensionGroup group2 = asciidoctor.createGroup();
+        asciidoctor.createGroup(EXTENSION_GROUP_NAME);
+
+        AttributesBuilder attributes = AttributesBuilder.attributes()
+            .tableOfContents(true)
+            .tableOfContents(Placement.LEFT)
+            .icons("font");
+
+        OptionsBuilder options = OptionsBuilder.options()
+            .backend("html5")
+            .safe(SafeMode.UNSAFE)
+            .mkDirs(true)
+            .toDir(new File("build"))
+            .attributes(attributes);
+
+        Map<String, Object> attributesMap = Map.of(
+            "icons", "font",
+            "experimental", Boolean.TRUE,
+            "my-attribute", "my-value");
 
         asciidoctor.convertFile(file("sample.adoc"), options);
-
-        options.backend("pdf");
-        setSourceHighlighter("pdf", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
-
-        options.backend("html5");
-        setSourceHighlighter("html5", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
-        // asciidoctor.convertFile(file("example-manual.adoc"), options);
     }
 
 
-    public static File file(String filaname) {
-        return new File(SRC_PATH, filaname);
+    public static File file(String filename) {
+        return new File(SRC_PATH, filename);
     }
 
-    public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {
-        if (backend.equals("pdf")) {
-            attributes.sourceHighlighter("rouge");
-        } else
-            attributes.sourceHighlighter("highlightjs");
-    }
+
 }
