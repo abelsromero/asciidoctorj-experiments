@@ -5,12 +5,15 @@ version = '1.0'
 
 repositories {
   mavenCentral()
+//  maven {
+//    url "https://oss.sonatype.org/content/repositories/orgasciidoctor-1259"
+//  }
 }
 
 dependencies {
-  implementation 'org.asciidoctor:asciidoctorj:2.4.3'
-  implementation 'org.asciidoctor:asciidoctorj-pdf:1.5.4'
-  implementation 'org.asciidoctor:asciidoctorj-groovy-dsl:2.0.1'
+  implementation 'org.asciidoctor:asciidoctorj:2.5.2'
+  implementation 'org.asciidoctor:asciidoctorj-pdf:1.6.0'
+  implementation 'org.asciidoctor:asciidoctorj-groovy-dsl:2.0.2'
 
   implementation 'commons-io:commons-io:2.4'
   implementation 'org.codehaus.groovy:groovy-all:2.5.13'
