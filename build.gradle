@@ -1,6 +1,7 @@
 apply plugin: 'groovy'
 
-sourceCompatibility = 17
+// sourceCompatibility = 17 or JavaVersion.VERSION_17 fails in IntelliJ
+sourceCompatibility = 11
 version = '1.0'
 
 repositories {
@@ -14,6 +15,7 @@ dependencies {
   implementation 'org.asciidoctor:asciidoctorj:2.5.2'
   implementation 'org.asciidoctor:asciidoctorj-pdf:1.6.0'
   implementation 'org.asciidoctor:asciidoctorj-groovy-dsl:2.0.2'
+  implementation 'org.asciidoctor:asciidoctorj-diagram:2.2.1'
 
   implementation 'commons-io:commons-io:2.4'
   implementation 'org.codehaus.groovy:groovy-all:2.5.13'

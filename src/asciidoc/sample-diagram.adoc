@@ -1,0 +1,14 @@
+= Document Title
+
+== Let's use a diagram
+
+.Awesome first diagram
+[plantuml, first_diagram, svg]
+....
+@startuml
+!theme spacelab
+class Example {
+  Theme spacelab
+}
+@enduml
+....
