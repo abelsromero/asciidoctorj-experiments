@@ -20,6 +20,6 @@ dependencies {
   implementation 'commons-io:commons-io:2.4'
   implementation 'org.codehaus.groovy:groovy-all:2.5.17'
 
-  testImplementation(platform('org.junit:junit-bom:5.7.1'))
+  testImplementation(platform('org.junit:junit-bom:5.8.2'))
   testImplementation('org.junit.jupiter:junit-jupiter')
 }
