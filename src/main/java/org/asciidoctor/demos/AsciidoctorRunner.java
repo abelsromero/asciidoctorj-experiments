@@ -11,26 +11,26 @@ public class AsciidoctorRunner {
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        AttributesBuilder attributes = AttributesBuilder.attributes();
-        attributes.tableOfContents(true);
-        attributes.tableOfContents(Placement.LEFT);
-//        attributes.icons("font");
+        AttributesBuilder attributes = Attributes.builder()
+            .tableOfContents(true)
+            .tableOfContents(Placement.LEFT);
+//        .icons("font");
 
-        OptionsBuilder options = OptionsBuilder.options();
-        options.safe(SafeMode.UNSAFE);
-        options.mkDirs(true);
-        options.attributes(attributes);
-        options.toDir(new File("build"));
+        OptionsBuilder options = Options.builder()
+            .safe(SafeMode.UNSAFE)
+            .mkDirs(true)
+            .attributes(attributes)
+            .toDir(new File("build"));
 
-        asciidoctor.convertFile(file("sample.adoc"), options);
+        asciidoctor.convertFile(file("sample.adoc"), options.build());
 
         options.backend("pdf");
         setSourceHighlighter("pdf", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
+        asciidoctor.convertFile(file("sample.adoc"), options.build());
 
         options.backend("html5");
         setSourceHighlighter("html5", attributes);
-        asciidoctor.convertFile(file("sample.adoc"), options);
+        asciidoctor.convertFile(file("sample.adoc"), options.build());
         // asciidoctor.convertFile(file("example-manual.adoc"), options);
     }
 
