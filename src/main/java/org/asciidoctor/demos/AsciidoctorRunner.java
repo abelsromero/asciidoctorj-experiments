@@ -1,14 +1,21 @@
 package org.asciidoctor.demos;
 
 import org.asciidoctor.*;
+import org.asciidoctor.ast.Document;
+import org.asciidoctor.ast.Section;
+import org.asciidoctor.ast.StructuralNode;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 import static org.asciidoctor.demos.utils.FileUtils.file;
 
 public class AsciidoctorRunner {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
         AttributesBuilder attributes = Attributes.builder()
@@ -22,7 +29,9 @@ public class AsciidoctorRunner {
             .attributes(attributes)
             .toDir(new File("build"));
 
-        asciidoctor.convertFile(file("sample.adoc"), options.build());
+        Document load = asciidoctor.load(Files.readString(Path.of("/home/asalgadr/github/asciidoctorj-experiments/src/asciidoc/sample.adoc")), options.build());
+
+        List<StructuralNode> blocks = load.getBlocks();
 
         options.backend("pdf");
         setSourceHighlighter("pdf", attributes);
