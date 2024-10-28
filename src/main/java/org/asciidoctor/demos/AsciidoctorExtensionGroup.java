@@ -39,17 +39,19 @@ public class AsciidoctorExtensionGroup {
         ExtensionGroup group2 = asciidoctor.createGroup();
         asciidoctor.createGroup(EXTENSION_GROUP_NAME);
 
-        AttributesBuilder attributes = AttributesBuilder.attributes()
+        var attributes = Attributes.builder()
             .tableOfContents(true)
             .tableOfContents(Placement.LEFT)
-            .icons("font");
+            .icons("font")
+            .build();
 
-        OptionsBuilder options = OptionsBuilder.options()
+        var options = Options.builder()
             .backend("html5")
             .safe(SafeMode.UNSAFE)
             .mkDirs(true)
             .toDir(new File("build"))
-            .attributes(attributes);
+            .attributes(attributes)
+            .build();
 
         Map<String, Object> attributesMap = Map.of(
             "icons", "font",

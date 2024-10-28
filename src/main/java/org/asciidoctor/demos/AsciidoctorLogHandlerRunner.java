@@ -27,19 +27,19 @@ public class AsciidoctorLogHandlerRunner {
             }
         });
 
-        final AttributesBuilder attributes = AttributesBuilder.attributes();
-        attributes.tableOfContents(true);
-        attributes.tableOfContents(Placement.LEFT);
+        var attributes = Attributes.builder()
+            .tableOfContents(true)
+            .tableOfContents(Placement.LEFT)
+            .build();
 
-        final OptionsBuilder options = OptionsBuilder.options();
-        options.safe(SafeMode.UNSAFE);
-        options.mkDirs(true);
-        options.attributes(attributes);
-        options.toDir(new File("build"));
+        var options = Options.builder()
+            .safe(SafeMode.UNSAFE)
+            .mkDirs(true)
+            .attributes(attributes)
+            .toDir(new File("build"))
+            .build();
 
         asciidoctor.convertFile(file("document-with-errors.adoc"), options);
-
-
     }
 
     private static void printVerbose(GlobalVariables globalVariables) {

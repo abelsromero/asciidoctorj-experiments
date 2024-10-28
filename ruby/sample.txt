@@ -1,0 +1,28 @@
+This is a title
+
+This a preamble
+
+This is a section
+
+These are some replacements {value}
+
+Some admonitions
+
+Asciidoctor supports font-based admonition icons, powered by Font Awesome!
+A few images
+
+A block image
+
+
+An inlined image  in the text.
+
+Some code
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        // Prints "Hello, World" to the terminal window.
+        System.out.println("Hello, World");
+    }
+
+}

@@ -2,7 +2,6 @@ package org.asciidoctor.demos;
 
 import org.asciidoctor.*;
 import org.asciidoctor.ast.Document;
-import org.asciidoctor.ast.Section;
 import org.asciidoctor.ast.StructuralNode;
 
 import java.io.File;
@@ -11,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.asciidoctor.demos.utils.BackendUtils.setSourceHighlighter;
 import static org.asciidoctor.demos.utils.FileUtils.file;
 
 public class AsciidoctorRunner {
@@ -18,12 +18,13 @@ public class AsciidoctorRunner {
     public static void main(String[] args) throws IOException {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        AttributesBuilder attributes = Attributes.builder()
+        var attributes = Attributes.builder()
             .tableOfContents(true)
-            .tableOfContents(Placement.LEFT);
+            .tableOfContents(Placement.LEFT)
+            .build();
 //        .icons("font");
 
-        OptionsBuilder options = Options.builder()
+        var options = Options.builder()
             .safe(SafeMode.UNSAFE)
             .mkDirs(true)
             .attributes(attributes)
@@ -43,10 +44,4 @@ public class AsciidoctorRunner {
         // asciidoctor.convertFile(file("example-manual.adoc"), options);
     }
 
-    public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {
-        if (backend.equals("pdf")) {
-            attributes.sourceHighlighter("rouge");
-        } else
-            attributes.sourceHighlighter("highlightjs");
-    }
 }

@@ -1,13 +1,12 @@
 package org.asciidoctor.demos;
 
 import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.Options;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by abelsr on 13/02/2016.
@@ -42,9 +41,10 @@ public class GenerateFile {
 
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        Map<String, Object> options = new HashMap<String, Object>();
-        options.put("backend", "pdf");
-        options.put("in_place", true);
+        var options = Options.builder()
+            .backend("pdf")
+            .inPlace(true)
+            .build();
 
         /*
         OptionsBuilder options = OptionsBuilder.options();

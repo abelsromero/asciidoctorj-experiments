@@ -3,6 +3,7 @@ package org.asciidoctor.demos.extensions;
 import org.asciidoctor.ast.Document;
 import org.asciidoctor.extension.Preprocessor;
 import org.asciidoctor.extension.PreprocessorReader;
+import org.asciidoctor.extension.Reader;
 
 import java.util.Map;
 
@@ -20,9 +21,10 @@ public class HelloPreprocessor extends Preprocessor {
     }
 
     @Override
-    public void process(Document document, PreprocessorReader reader) {
+    public Reader process(Document document, PreprocessorReader reader) {
         checkFootnotes(document);
         System.out.println("Hello " + message + " !!!");
+        return reader;
     }
 
 }

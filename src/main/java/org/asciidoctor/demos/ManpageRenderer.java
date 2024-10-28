@@ -11,19 +11,21 @@ public class ManpageRenderer {
     public static void main(String[] args) {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        AttributesBuilder attributes = AttributesBuilder.attributes();
-        attributes.tableOfContents(true);
-        attributes.tableOfContents(Placement.LEFT);
+        var attributes = Attributes.builder()
+            .tableOfContents(true)
+            .tableOfContents(Placement.LEFT)
+            .build();
 
-        OptionsBuilder options = OptionsBuilder.options();
-        options.backend("manpage");
-        options.docType("manpage");
-        options.safe(SafeMode.UNSAFE);
-        options.mkDirs(true);
-        options.attributes(attributes);
+        var options = Options.builder()
+            .backend("manpage")
+            .docType("manpage")
+            .safe(SafeMode.UNSAFE)
+            .mkDirs(true)
+            .attributes(attributes)
+            .build();
 
         // Output
-        options.toDir(new File("build"));
+        options.setToDir("build");
 
         asciidoctor.convertFile(file("manpage.adoc"), options);
         // asciidoctor.convertFile(file("example-manual.adoc"), options);

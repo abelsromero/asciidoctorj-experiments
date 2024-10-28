@@ -24,7 +24,7 @@ public class CodeCommentIncludeProcessor extends IncludeProcessor {
         final String source = (String) attributes.getOrDefault("source", "java");
         final String textToInclude = getCommenter(source).apply((textLine + "\n").repeat(3));
 
-        reader.push_include(
+        reader.pushInclude(
             textToInclude,
             target,
             new File(".").getAbsolutePath(),

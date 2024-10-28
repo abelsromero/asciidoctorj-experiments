@@ -22,17 +22,19 @@ public class AsciidoctorLogHandlers {
             System.out.println("[INFO] Second LogHander: " + logRecord.getMessage());
         });
 
-        AttributesBuilder attributes = AttributesBuilder.attributes()
+        var attributes = Attributes.builder()
             .tableOfContents(true)
             .tableOfContents(Placement.LEFT)
-            .icons("font");
+            .icons("font")
+            .build();
 
-        OptionsBuilder options = OptionsBuilder.options()
+        var options = Options.builder()
             .backend("html5")
             .safe(SafeMode.UNSAFE)
             .mkDirs(true)
             .toDir(new File("build"))
-            .attributes(attributes);
+            .attributes(attributes)
+            .build();
 
         Map<String, Object> attributesMap = new HashMap<>();
         attributesMap.put("icons", "font");

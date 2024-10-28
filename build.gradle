@@ -19,8 +19,8 @@ java {
 }
 
 dependencies {
-  implementation 'org.asciidoctor:asciidoctorj:2.5.13'
-  implementation 'org.asciidoctor:asciidoctorj-pdf:2.3.18'
+  implementation 'org.asciidoctor:asciidoctorj:3.0.0'
+  implementation 'org.asciidoctor:asciidoctorj-pdf:2.3.19'
   implementation 'org.asciidoctor:asciidoctorj-diagram:2.3.1'
   implementation 'org.asciidoctor:asciidoctorj-groovy-dsl:3.0.0-beta.1'
 

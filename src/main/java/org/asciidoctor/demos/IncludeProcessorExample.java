@@ -3,6 +3,9 @@ package org.asciidoctor.demos;
 import org.asciidoctor.*;
 import org.asciidoctor.demos.extensions.CodeCommentIncludeProcessor;
 
+import java.io.File;
+
+import static org.asciidoctor.demos.utils.BackendUtils.setSourceHighlighter;
 import static org.asciidoctor.demos.utils.FileUtils.file;
 
 public class IncludeProcessorExample {
@@ -13,26 +16,23 @@ public class IncludeProcessorExample {
         asciidoctor.javaExtensionRegistry()
             .includeProcessor(CodeCommentIncludeProcessor.class);
 
-        AttributesBuilder attributes = AttributesBuilder.attributes();
-        attributes.tableOfContents(true);
-        attributes.tableOfContents(Placement.LEFT);
-        attributes.icons("font");
+        var attributes = Attributes.builder()
+            .tableOfContents(true)
+            .tableOfContents(Placement.LEFT)
+            .icons("font")
+            .build();
 
-        var options = new Options();
-        options.setInPlace(true);
-        options.setSafe(SafeMode.SAFE);
-        options.setToDir("." + "/build");
-        options.setMkDirs(true);
+        var options = Options.builder()
+            .inPlace(true)
+            .safe(SafeMode.SAFE)
+            .toDir(new File(".", "/build"))
+            .mkDirs(true)
+            .build();
+
 
         options.setBackend("html5");
         setSourceHighlighter("html5", attributes);
         asciidoctor.convertFile(file("custom-include-processor.adoc"), options);
     }
 
-    public static void setSourceHighlighter(String backend, AttributesBuilder attributes) {
-        if (backend.equals("pdf")) {
-            attributes.sourceHighlighter("rouge");
-        } else
-            attributes.sourceHighlighter("highlightjs");
-    }
 }
