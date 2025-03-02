@@ -23,3 +23,8 @@ public class HelloWorld {
 }
 ----
 <1> Missing callout reference?
+
+
+== Missing attributes
+
+This is an {this-is-missing} message!
