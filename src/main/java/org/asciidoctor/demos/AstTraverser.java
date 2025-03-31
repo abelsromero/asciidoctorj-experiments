@@ -4,7 +4,10 @@ import org.apache.commons.io.FileUtils;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.Options;
 import org.asciidoctor.ast.Document;
+import org.asciidoctor.ast.StructuralNode;
 import org.asciidoctor.extension.Treeprocessor;
+import org.asciidoctor.jruby.ast.impl.SectionImpl;
+import org.jruby.runtime.builtin.IRubyObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +22,7 @@ public class AstTraverser {
 
         final Asciidoctor asciidoctor = Asciidoctor.Factory.create();
         final Options options = Options.builder()
-            .backend("html")
+            .backend("pdf")
             .mkDirs(true)
             .toFile(new File("build", "converted.html"))
             .build();
@@ -34,6 +37,12 @@ public class AstTraverser {
             .treeprocessor(new Treeprocessor() {
                 @Override
                 public Document process(Document document) {
+                    SectionImpl section = (SectionImpl) document.getBlocks().get(1);
+                    String title = section.getTitle();
+                    Object title1 = section.getProperty("title");
+
+                    section.getRubyObject().getInstanceVariables().getInstanceVariable("@title");
+
                     System.out.println("go!");
                     new NodesTraverser()
                         .processNode(document, 0);

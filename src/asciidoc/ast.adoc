@@ -3,7 +3,7 @@ Foo Bar <foo@bar.com>
 
 This document demonstrates the AST of an Asciidoctor document.
 
-== The first section
+== The *first* section
 
 This is a link http://google.es[Hello].
 
