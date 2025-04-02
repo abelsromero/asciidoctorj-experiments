@@ -9,6 +9,11 @@ import java.util.List;
 
 import static org.asciidoctor.demos.utils.FileUtils.file;
 
+/**
+ * Notes:
+ * - LogHandler is instantiated only once for all Asciidoctor instances.
+ * - Extension Registry is invoked once for each instance and one Extension instance is created.
+ */
 class WithLogHandler {
 
     public static void main(String[] args) {
